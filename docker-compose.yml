@@ -1,0 +1,109 @@
+# Used to deploy the blog API application with Docker Compose from Docker Hub.
+# The difference is the removal of the build context and Dockerfile specifications,
+# as the images are already built and pushed to Docker Hub.
+
+version: '3.8'
+services:
+  app:
+    image: neyo55/blog-api-backend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/blog-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    image: neyo55/blog-api-frontend:latest
+    ports:
+      - "3001:3001"
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  mongo-data:
+
+
+
+
+
+
+# To build images locally and run the application before pushing to Docker Hub, you can use the following Docker Compose file:
+
+# version: '3.8'
+# services:
+#   app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - .:/app
+#     depends_on:
+#       - mongo
+#     environment:
+#       - MONGO_URI=mongodb://mongo:27017/blog-api
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 10s
+#     # Note: You need to add a /health endpoint to your backend (e.g., in app.js)
+
+#   frontend:
+#     build:
+#       context: ./client
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3001:3001"
+#     depends_on:
+#       - app
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:3001"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 10s
+
+#   mongo:
+#     image: mongo:latest
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo-data:/data/db
+#     healthcheck:
+#       test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 10s
+
+# volumes:
+#   mongo-data:
