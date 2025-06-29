@@ -1,9 +1,21 @@
-# Used to deploy the blog API application with Docker Compose from Docker Hub.
-# The difference is the removal of the build context and Dockerfile specifications,
-# as the images are already built and pushed to Docker Hub.
-
 version: '3.8'
+
 services:
+  mongo:
+    image: neyo55/mongo-seeded:latest
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
   app:
     image: neyo55/blog-api-backend:latest
     ports:
@@ -11,7 +23,8 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/blog-api
+      - MONGO_URI=mongodb://admin:password123@mongo:27017/blog-db?authSource=admin
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
@@ -25,6 +38,7 @@ services:
       - "3001:3001"
     depends_on:
       - app
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001"]
       interval: 30s
@@ -32,21 +46,88 @@ services:
       retries: 3
       start_period: 10s
 
-  mongo:
-    image: mongo:latest
+  mongo-express:
+    image: mongo-express
     ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
+      - "8081:8081"
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password123
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_BASICAUTH=true
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_BASICAUTH_USERNAME=mexpress
+      - ME_CONFIG_BASICAUTH_PASSWORD=expresspass
 
-volumes:
-  mongo-data:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # Used to deploy the blog API application with Docker Compose from Docker Hub.
+# # The difference is the removal of the build context and Dockerfile specifications,
+# # as the images are already built and pushed to Docker Hub.
+
+# version: '3.8'
+# services:
+#   app:
+#     image: neyo55/blog-api-backend:latest
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - mongo
+#     restart: unless-stopped
+#     environment:
+#       - MONGO_URI=mongodb://mongo:27017/blog-api
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 10s
+      
+
+
+#   frontend:
+#     image: neyo55/blog-api-frontend:latest
+#     ports:
+#       - "3001:3001"
+#     depends_on:
+#       - app
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:3001"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 10s
+
+#   mongo:
+#     image: mongo:latest
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo-data:/data/db
+#     healthcheck:
+#       test: ["CMD", "mongosh", "--eval", "db.runCommand({ ping: 1 })"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 10s
+
+# volumes:
+#   mongo-data:
 
 
 

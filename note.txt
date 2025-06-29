@@ -54,11 +54,19 @@ docker exec -it blog-api-mongo-1 mongosh -u neyo55 -p neyo53669 --authentication
 use blog-api
 db.posts.find()
 
+# Open a shell inside the container
+docker exec -it mongo-seeded mongosh -u admin -p password123 --authenticationDatabase admin
+
+
 
 # To stop and restart the MongoDB container
 docker stop mongo
 docker start mongo
 
+dbname blog-db
+user admin
+passord password123
+authdb admin
 
 
 # This is used to test the CRUD in backend of the app if it works using the terminal and u can edit the title and content as desired.
@@ -67,12 +75,16 @@ curl -X POST -H "Content-Type: application/json" -d '{"title":"Test","content":"
 
 docker build -t
 docker ps -a
-docker-compose up -d 
-docker-compose up -d --build
+docker-compose up --build
 docker-compose down
 docker-compose logs app
 docker-compose logs frontend
 docker-compose logs mongo
+
+
+API Root: http://localhost:3000
+API Health: http://localhost:3000/health
+Frontend: http://localhost:3001
 
 
 docker tag blog-api-backend:latest neyo55/blog-api-backend:latest
@@ -80,6 +92,13 @@ docker tag blog-api-frontend:latest neyo55/blog-api-frontend:latest
 
 docker build -t neyo55/blog-api-backend:latest .
 docker build -t neyo55/blog-api-frontend:latest .
+
+docker build --no-cache -f client/Dockerfile -t neyo55/blog-api-frontend:latest client/
+
+docker run -d -p 3001:3001 neyo55/blog-api-frontend:latest
+
+docker run -d -p 3000:3000 -e MONGO_URI=mongodb://host.docker.internal:27017/blog-api neyo55/blog-api-backend:latest
+
 
 docker push neyo55/blog-api-backend:latest
 docker push neyo55/blog-api-frontend:latest
@@ -95,3 +114,12 @@ docker rmi $(docker images -f "dangling=true" -q)
 
 # To generate a random base64 32bit secret key
 openssl rand -base64 32
+
+
+# To get aws iam user using cli
+aws sts get-caller-identity
+
+
+API Root: http://localhost:3000
+API Health: http://localhost:3000/health
+Frontend: http://localhost:3001

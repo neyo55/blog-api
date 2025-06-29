@@ -9,7 +9,10 @@ RUN apk add --no-cache curl
 
 # Copy package.json and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install && ls -la node_modules/react-scripts
+
+# Install serve globally
+RUN npm install -g serve
 
 # Copy application code
 COPY . .
