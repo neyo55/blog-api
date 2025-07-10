@@ -1,0 +1,113 @@
+Here is my directory structure for the blog-api  application 
+
+
+blog-api/
+README.md
+docker-compose.yml
+backend/
+app.js
+Dockerfile
+jest.config.js
+jest
+.env
+.dockerignore
+/tests/posts.test.js
+/routes/posts.js
+package.json
+
+frontend/
+client/
+pakckage.json
+jest.config.js
+.babelrc
+.dockerignore
+.gitignore
+Dockerfile
+public/
+├── favicon.ico
+├── index.html
+├── logo192.png
+├── logo512.png
+├── manifest.json
+|__ robots.txt
+src/
+├── App.css
+├── App.js
+├── App.test.js
+├── index.css
+├── index.js
+├── logo.svg
+├── reportWebVitals.js
+|__ setupTests.js
+
+database/mongo/
+    ├── Dockerfile
+    ├── init/seed.js
+    |___ .dockerignore
+
+
+
+#######################################
+
+ROOT
+blog-api/
+│
+├── docker-compose.yml
+├── README.md
+│
+├── backend/
+├── frontend/
+└── database/
+
+BACKEND
+backend/
+├── app.js
+├── package.json
+├── Dockerfile
+├── .env
+├── .dockerignore
+├── jest.config.js
+├── jest/                  # Optional - for custom test utilities
+│   └── ...
+├── routes/
+│   └── posts.js
+├── tests/
+│   └── posts.test.js
+
+
+FRONTEND
+frontend/
+└── client/
+    ├── package.json
+    ├── Dockerfile
+    ├── .env
+    ├── .dockerignore
+    ├── .gitignore
+    ├── jest.config.js
+    ├── .babelrc
+
+    ├── public/
+    │   ├── favicon.ico
+    │   ├── index.html
+    │   ├── logo192.png
+    │   ├── logo512.png
+    │   ├── manifest.json
+    │   └── robots.txt
+
+    └── src/
+        ├── App.js
+        ├── App.css
+        ├── App.test.js
+        ├── index.js
+        ├── index.css
+        ├── logo.svg
+        ├── reportWebVitals.js
+        └── setupTests.js
+
+DATABASE
+database/
+└── mongo/
+    ├── Dockerfile
+    ├── .dockerignore
+    └── init/
+        └── seed.js
