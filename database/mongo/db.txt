@@ -54,7 +54,7 @@ docker compose up --build
 
 
 
-# Using created username and password to access the database (current database)
+# Using created username and password to access the database in the container(current database)
 docker exec -it blog-db mongosh -u admin -p password123 --authenticationDatabase admin
 show dbs
 use blog-db
