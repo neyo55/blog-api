@@ -33,6 +33,10 @@ docker exec -it mongo-seeded mongosh -u admin -p password123 --authenticationDat
 use blog-db
 db.posts.find().pretty()
 
+# how to access the blog-db 
+docker exec -it blog-db mongosh -u admin -p password123 --authenticationDatabase admin
+
+
 
 
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/blog-api';
