@@ -54,7 +54,7 @@ blog-api/
 │
 ├── docker-compose.yml
 ├── README.md
-│
+├── .env
 ├── backend/
 ├── frontend/
 └── database/
@@ -71,8 +71,8 @@ backend/
 │   └── ...
 ├── routes/
 │   └── posts.js
-├── tests/
-│   └── posts.test.js
+└── tests/
+    └── posts.test.js
 
 
 FRONTEND
@@ -110,4 +110,5 @@ database/
     ├── Dockerfile
     ├── .dockerignore
     └── init/
+        ├── init-admin.js
         └── seed.js

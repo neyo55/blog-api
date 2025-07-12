@@ -59,6 +59,8 @@ services:
   blog-frontend:
     build:
       context: ./frontend/client
+      args:
+        REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL}
     container_name: blog-frontend
     env_file: .env
     ports:
