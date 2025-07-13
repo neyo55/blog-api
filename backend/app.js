@@ -9,6 +9,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/blog-db'; // fallback if .env fails
 
+console.log(`🌍 Using Mongo URI: ${mongoUri}`);
+
 // Connect to MongoDB
 const connectDB = async () => {
   try {

@@ -9,6 +9,8 @@ echo "======== Starting user data script at $(date) ========"
 
 export DEBIAN_FRONTEND=noninteractive
 
+trap 'echo "[ERROR] Script failed at line $LINENO. Check $LOG_FILE for details."; exit 1' ERR
+
 handle_error() {
     echo "[ERROR] Script failed at line $1. Check $LOG_FILE for details."
     exit 1
@@ -130,7 +132,12 @@ else
     echo "MongoDB already installed and registered as a service."
 fi
 
-# 10. MongoDB Configuration
+# Disable system MongoDB so Docker can run MongoDB container
+echo "Stopping system MongoDB to free port 27017 for Docker..."
+systemctl stop mongod
+systemctl disable mongod
+
+# MongoDB Configuration
 if grep -q "bindIp: 0.0.0.0" /etc/mongod.conf; then
     echo "MongoDB already configured to bind on all interfaces."
 else

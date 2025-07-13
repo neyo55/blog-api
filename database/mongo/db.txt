@@ -37,16 +37,14 @@ db.posts.find().pretty()
 docker exec -it blog-db mongosh -u admin -p password123 --authenticationDatabase admin
 
 
-
-
-const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/blog-api';
-
-MONGO_URI=mongodb://admin:password123@<mongo-container-host>:27017/blog-db?authSource=admin
-
--e MONGO_URI=mongodb://admin:password123@host.docker.internal:27017/blog-db?authSource=admin
-
-# for mongo compass
+# for mongo compass testing locally 
 mongodb://admin:password123@localhost:27017/blog-db?authSource=admin
+
+# for mongo compass using instance public ip 
+mongodb://neyo:neyo@53669@34.252.93.52:27017/blog-db?authSource=blog-db
+mongodb://admin:password123@34.252.93.52:27017/?authSource=admin
+
+
 
 # To stop a running background container
 docker rm -f cranky_merkle

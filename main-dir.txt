@@ -59,7 +59,6 @@ blog-api/
 ├── frontend/
 └── database/
 
-BACKEND
 backend/
 ├── app.js
 ├── package.json
@@ -74,8 +73,6 @@ backend/
 └── tests/
     └── posts.test.js
 
-
-FRONTEND
 frontend/
 └── client/
     ├── package.json
@@ -104,11 +101,11 @@ frontend/
         ├── reportWebVitals.js
         └── setupTests.js
 
-DATABASE
 database/
 └── mongo/
     ├── Dockerfile
     ├── .dockerignore
     └── init/
         ├── init-admin.js
+        ├── init-user.js
         └── seed.js
