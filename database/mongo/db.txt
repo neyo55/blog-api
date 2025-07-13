@@ -41,8 +41,8 @@ docker exec -it blog-db mongosh -u admin -p password123 --authenticationDatabase
 mongodb://admin:password123@localhost:27017/blog-db?authSource=admin
 
 # for mongo compass using instance public ip 
-mongodb://neyo:neyo@53669@34.252.93.52:27017/blog-db?authSource=blog-db
-mongodb://admin:password123@34.252.93.52:27017/?authSource=admin
+mongodb://neyo:neyo@53669@18.201.178.82:27017/blog-db?authSource=blog-db
+mongodb://admin:password123@18.201.178.82:27017/?authSource=admin
 
 
 

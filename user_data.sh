@@ -132,10 +132,11 @@ else
     echo "MongoDB already installed and registered as a service."
 fi
 
-# Disable system MongoDB so Docker can run MongoDB container
-echo "Stopping system MongoDB to free port 27017 for Docker..."
-systemctl stop mongod
-systemctl disable mongod
+# Disable and kill MongoDB service before anything
+echo "Disabling and killing system mongod to free port 27017..."
+systemctl stop mongod || true
+systemctl disable mongod || true
+pkill -f mongod || true
 
 # MongoDB Configuration
 if grep -q "bindIp: 0.0.0.0" /etc/mongod.conf; then
